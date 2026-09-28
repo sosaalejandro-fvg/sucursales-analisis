@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html lang="es"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Verificación de ubicación de sucursales</title>
+<style>
+body{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;margin:0;padding:24px 32px;color:#1f2330;background:#f6f7fb}
+h1{margin:0 0 4px}.sub{color:#5b6070;margin:0 0 20px}
+.summary{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:20px}
+.card{background:#fff;border-radius:10px;padding:12px 16px;box-shadow:0 1px 3px #0001;min-width:150px;border-left:5px solid var(--c)}
+.card b{font-size:24px;display:block}
+.wrong{--c:#d32f2f}.likely{--c:#f57c00}.inconc{--c:#78909c}.minor{--c:#fbc02d}.okp{--c:#7cb342}.ok{--c:#2e7d32}
+.box{background:#fff;border-radius:10px;padding:14px 18px;box-shadow:0 1px 3px #0001;margin-bottom:16px}
+.box.warn{border-left:5px solid #d32f2f}
+ol,ul{margin:6px 0 0;padding-left:20px}
+input{width:100%;max-width:420px;padding:10px 12px;border:1px solid #ccd;border-radius:8px;font-size:15px;margin:8px 0 16px}
+section{margin-bottom:28px}
+h2{border-left:6px solid var(--c);padding-left:10px;margin:0 0 4px}
+.count{background:var(--c);color:#fff;border-radius:12px;padding:1px 10px;font-size:14px;vertical-align:middle}
+.desc{color:#5b6070;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;background:#fff;border-radius:10px;overflow:hidden;box-shadow:0 1px 3px #0001;font-size:14px}
+th{background:#eef0f6;text-align:left;padding:8px 10px;font-weight:600}
+td{padding:8px 10px;border-top:1px solid #eceef3;vertical-align:top}
+tr:hover td{background:#fafbff}
+.links a{display:inline-block;margin:0 6px 4px 0;padding:3px 8px;border-radius:6px;background:#e8f0fe;color:#1a57c9;text-decoration:none;white-space:nowrap;font-size:13px}
+.links a:hover{background:#d2e3fc}
+.mono{font-family:ui-monospace,monospace;font-size:12px;white-space:nowrap}
+.small{font-size:12px;color:#5b6070;margin-top:3px}
+.na{color:#999}
+.tag{background:#eceff1;color:#546e7a;border-radius:6px;padding:1px 6px;font-size:11px;font-weight:500}
+.conf{display:inline-block;margin-top:3px;border-radius:6px;padding:1px 7px;font-size:12px;font-weight:600;color:#fff}
+.c-alta{background:#2e7d32}.c-media{background:#f9a825}.c-baja{background:#c62828}
+footer{color:#7a7f8e;font-size:13px;margin-top:24px}
+@page{size:A4 landscape;margin:10mm}
+@media print{
+*{-webkit-print-color-adjust:exact;print-color-adjust:exact}
+body{background:#fff;padding:0;font-size:12px}
+input{display:none}
+table{font-size:11px;box-shadow:none;border:1px solid #e0e3ea}
+thead{display:table-header-group}
+tr,.box,.card{break-inside:avoid}
+h2{break-after:avoid}
+}
+</style></head><body>
+<h1>Verificación de ubicación de sucursales</h1>
+<p class="sub">Comparación automática entre la dirección cargada y el pin del mapa · Generado el 28/9/2026 · 116 pines de 112 sucursales</p>
+<div class="summary"><div class="card wrong"><b>11</b>Pin incorrecto</div><div class="card likely"><b>6</b>Probablemente incorrecto</div><div class="card inconc"><b>0</b>No concluyente</div><div class="card minor"><b>2</b>Diferencia menor (hasta 150 m)</div><div class="card okp"><b>3</b>Correcto (altura sin verificar)</div><div class="card ok"><b>94</b>Correcto</div></div>
+<div class="box"><strong>Cómo se verificó</strong><ol>
+<li>Para cada pin se consultó qué calle y altura hay en ese punto (OpenStreetMap) y qué calles pasan a menos de 80 m.</li>
+<li>Si el pin está sobre la calle cargada y a la altura correcta (±300), o coincide con un local Frávega registrado en el mapa, se considera <b>correcto</b>.</li>
+<li>Si no, se ubicó la dirección con dos fuentes independientes (Georef, el servicio oficial de datos.gob.ar, y OpenStreetMap). Solo se aceptan resultados sobre la misma calle y dentro de la localidad. La confianza es <b>Alta</b> si ambas fuentes coinciden (a menos de 150 m) o si hay un local Frávega en el mapa.</li>
+</ol></div>
+<div class="box"><strong>Cómo revisar</strong><ol>
+<li><b>Buscar dirección</b> abre Google Maps con la dirección cargada; <b>Pin actual</b> muestra dónde la mostramos hoy; <b>Sugerida</b> muestra la corrección propuesta.</li>
+<li>Para tomar la coordenada exacta: clic derecho sobre el local en Google Maps; la primera opción copia las coordenadas.</li>
+</ol></div>
+<div class="box warn"><strong>Hallazgos en la base</strong><ul><li><b>Mar del Plata Shopping (174)</b> y <b>Campana (175)</b> comparten el mismo pin (-34.599998474,-58.400001526).</li><li><b>Once (Ciudad) (018)</b> tiene 2 versiones distintas de la dirección.</li><li><b>Córdoba (081)</b> tiene 2 pines distintos cargados en la base.</li><li><b>San Miguel Shopping (164)</b> tiene 2 pines distintos cargados en la base.</li><li><b>Mar del Plata Shopping (174)</b> tiene 2 pines distintos cargados en la base.</li><li><b>Formosa (149)</b> tiene 2 versiones distintas de la dirección.</li><li><b>Campana (175)</b> tiene 2 pines distintos cargados en la base.</li></ul></div>
+<input id="q" type="search" placeholder="Filtrar por sucursal, ID o localidad…" aria-label="Filtrar">
+<section class="wrong"><h2>Pin incorrecto <span class="count">11</span></h2><p class="desc">El pin no está sobre la dirección cargada. Se incluye la coordenada sugerida cuando las fuentes la pudieron ubicar.</p>
+<table><thead><tr><th>ID</th><th>Sucursal</th><th>Dirección cargada</th><th>Qué hay en el pin actual</th><th>Corrección sugerida</th><th>Mapas</th></tr></thead><tbody>
+<tr><td>174</td><td><strong>Mar del Plata Shopping</strong></td><td>Sarmiento 2685<div class="small">Mar del Plata, Buenos Aires</div></td>
+<td>El pin está a 386,5 km de Mar del Plata<div class="small">Calles a menos de 80 m: Avenida Córdoba, Pasteur</div></td><td><span class="mono">-38.012142, -57.543320</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap · a 387,1 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Sarmiento%202685%2C%20Mar%20del%20Plata%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.599998474%2C-58.400001526" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.01214243066924%2C-57.54332033659716" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>077</td><td><strong>El Dorado</strong></td><td>Av. San Martín 1977<div class="small">Eldorado, Misiones</div></td>
+<td>El pin está a 166,3 km de Eldorado<div class="small">Calles a menos de 80 m: Colón, San Martín, San Lorenzo, Galería</div></td><td><span class="mono">-26.408232, -54.604257</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: OpenStreetMap + Local Frávega en OSM · a 166,5 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20San%20Mart%C3%ADn%201977%2C%20Eldorado%2C%20Misiones%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.365917206%2C-55.895168304" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-26.4082324%2C-54.6042568" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>175</td><td><strong>Campana</strong></td><td>Ing. Agustin Rocca 249<div class="small">Campana, Buenos Aires</div></td>
+<td>El pin está a 70,6 km de Campana<div class="small">Calles a menos de 80 m: Avenida Córdoba, Pasteur</div></td><td><span class="mono">-34.161224, -58.959133</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: OpenStreetMap + Local Frávega en OSM · a 70,8 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Ing.%20Agustin%20Rocca%20249%2C%20Campana%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.599998474%2C-58.400001526" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.161224%2C-58.959133" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>133</td><td><strong>Pergamino</strong></td><td>San Nicolás 459<div class="small">Pergamino, Buenos Aires</div></td>
+<td>El pin está sobre San Nicolás, pero la altura 459 está a 2,5 km según Georef<div class="small">Calles a menos de 80 m: San Nicolás, Colectora, Doctor Ricardo Balbín</div></td><td><span class="mono">-33.893563, -60.572803</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap + Local Frávega en OSM · a 2,5 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=San%20Nicol%C3%A1s%20459%2C%20Pergamino%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.914665221999996%2C-60.583118439" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.8935634%2C-60.5728026" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>083</td><td><strong>La Plata Nueva</strong></td><td>Calle 12 esq. 58 1249<div class="small">La Plata, Buenos Aires</div></td>
+<td>El pin cae en Calle 8 705, La Plata, no sobre Calle 12<div class="small">Calles a menos de 80 m: Calle 46, Calle 8</div></td><td><span class="mono">-34.923914, -57.949072</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap + Local Frávega en OSM · a 1,2 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Calle%2012%201249%2C%20La%20Plata%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.913444519%2C-57.953987122" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.923914%2C-57.9490722" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>152</td><td><strong>La Pampa</strong></td><td>Coronel Gil 267 Santa Rosa<div class="small">Santa Rosa, La Pampa</div></td>
+<td>El pin cae en Raúl B. Díaz 501, Santa Rosa, no sobre Coronel Gil<div class="small">Calles a menos de 80 m: Gobernador Duval, San Juan, Raúl B. Díaz</div></td><td><span class="mono">-36.619499, -64.289694</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap + Local Frávega en OSM · a 787 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Coronel%20Gil%20267%2C%20Santa%20Rosa%2C%20La%20Pampa%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-36.612426758%2C-64.289916992" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-36.6194986%2C-64.2896936" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>049</td><td><strong>Río Cuarto</strong></td><td>Belgrano 102<div class="small">Río Cuarto, Córdoba</div></td>
+<td>El pin cae en Sobremonte 117, Río Cuarto, no sobre Belgrano<div class="small">Calles a menos de 80 m: Alonso, Sobremonte, Intendente Doctor Humberto Mugnaini, Doctor Jaime Gil, Paraná</div></td><td><span class="mono">-33.123758, -64.347198</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap + Local Frávega en OSM · a 594 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Belgrano%20102%2C%20R%C3%ADo%20Cuarto%2C%20C%C3%B3rdoba%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.118427277%2C-64.346733093" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.1237579%2C-64.3471982" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>168</td><td><strong>Santiago del Estero</strong></td><td>Peatonal Tucuman 263<div class="small">Santiago del Estero, Santiago del Estero</div></td>
+<td>El pin cae en Avellaneda, Santiago del Estero, no sobre Peatonal Tucuman<div class="small">Calles a menos de 80 m: 24 de Septiembre, Avellaneda, Absalón Rojas, Avenida Libertad</div></td><td><span class="mono">-27.784070, -64.262076</span><br><span class="conf c-media">Confianza Media</span><div class="small">Fuentes: OpenStreetMap · a 462 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Peatonal%20Tucuman%20263%2C%20Santiago%20del%20Estero%2C%20Santiago%20del%20Estero%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.787746429%2C-64.259880066" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.7840698%2C-64.2620762" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>081</td><td><strong>Córdoba</strong></td><td>Rivera Indarte 60/62/64<div class="small">Córdoba, Córdoba</div></td>
+<td>El pin cae en Paseo de la Ciudad, Córdoba, no sobre Rivera Indarte<div class="small">Calles a menos de 80 m: Deán Funes, Avenida Vélez Sarsfield, Avenida General Paz, Belgrano, Tucumán, Paseo del Caminante, Paseo del Centro, Galería Fortune, Galería Via de la Fontana, Paseo de la Ciudad</div></td><td><span class="mono">-31.414553, -64.184363</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + OpenStreetMap + Local Frávega en OSM · a 296 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rivera%20Indarte%2060%2C%20C%C3%B3rdoba%2C%20C%C3%B3rdoba%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.4149426%2C-64.1874535" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.4145534%2C-64.1843626" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>150</td><td><strong>Portal Mendoza</strong></td><td>Balcarce 897, Local 1019<div class="small">Godoy Cruz, Mendoza</div></td>
+<td>El pin cae en Proveedores, Distrito Ciudad de Godoy Cruz, no sobre Balcarce</td><td><span class="mono">-32.915089, -68.840387</span><br><span class="conf c-media">Confianza Media</span><div class="small">Fuentes: Georef · a 217 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Balcarce%20897%2C%20Godoy%20Cruz%2C%20Mendoza%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.9158720178937%2C-68.8382531291279" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.91508928773321%2C-68.84038713639589" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>076</td><td><strong>Alto Avellaneda Shopping</strong></td><td>Gûemes 897, Locales 204/205<div class="small">Avellaneda, Buenos Aires</div></td>
+<td>El pin cae en Vélez Sarsfield, Avellaneda, no sobre Gûemes</td><td><span class="mono">-34.675287, -58.367663</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + Local Frávega en OSM · a 150 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=G%C3%BBemes%20897%2C%20Avellaneda%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.676509857%2C-58.368366241" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.6752873%2C-58.3676632" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+</tbody></table></section>
+<section class="likely"><h2>Probablemente incorrecto <span class="count">6</span></h2><p class="desc">El pin no coincide con la calle o la altura cargada, pero la dirección no se pudo ubicar con certeza. Revisar a mano.</p>
+<table><thead><tr><th>ID</th><th>Sucursal</th><th>Dirección cargada</th><th>Qué hay en el pin actual</th><th>Corrección sugerida</th><th>Mapas</th></tr></thead><tbody>
+<tr><td>062</td><td><strong>San Juan</strong></td><td>Bernardino Rivadavia Este 272<div class="small">San Juan, San Juan</div></td>
+<td>El pin cae en Haití 346 (E), San Juan, no sobre Bernardino Rivadavia Este<div class="small">Calles a menos de 80 m: Haití</div></td><td><span class="mono">-31.536325, -68.522100</span><br><span class="conf c-media">Confianza Media</span><div class="small">Fuentes: Local Frávega en OSM · a 1,0 km del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Bernardino%20Rivadavia%20Este%20272%2C%20San%20Juan%2C%20San%20Juan%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.527273178%2C-68.521408081" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.5363246%2C-68.5221001" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>021</td><td><strong>Ramos Mejía</strong></td><td>Rivadavia 13850<div class="small">Ramos Mejía, Buenos Aires</div></td>
+<td>El pin está sobre Rivadavia, pero la altura 13850 está a 666 m según Georef<div class="small">Calles a menos de 80 m: 134 - Juan Hipólito Vieytes, 138 - Ambrosio De Fazio, 201 - Avenida Maipú, 260 - 9 de Julio, 137 - Avenida Rivadavia, 136 - Eduardo Porrini</div></td><td><span class="mono">-34.639997, -58.550858</span><br><span class="conf c-baja">Confianza Baja</span><div class="small">Fuentes: Georef · a 666 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Rivadavia%2013850%2C%20Ramos%20Mej%C3%ADa%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.640235901%2C-58.543579102" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.63999733239745%2C-58.55085811172083" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>164</td><td><strong>San Miguel Shopping</strong></td><td>Av. Arturo Illia 3770, Local 30<div class="small">San Miguel, Buenos Aires</div></td>
+<td>El pin está sobre Av. Arturo Illia, pero la altura 3770 está a 313 m según Georef<div class="small">Calles a menos de 80 m: Belgrano, Avenida Presidente Arturo Umberto Illia</div></td><td><span class="mono">-34.531463, -58.703225</span><br><span class="conf c-baja">Confianza Baja</span><div class="small">Fuentes: Georef · a 313 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Arturo%20Illia%203770%2C%20San%20Miguel%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.533229828%2C-58.700561523" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.531462917149256%2C-58.70322457317825" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>171</td><td><strong>Parque Comercial Avellaneda</strong></td><td>Aut. Bs As La Plata km 9<div class="small">Avellaneda, Buenos Aires</div></td>
+<td>El pin cae en Ayolas, Dock Sud, no sobre Aut. Bs As La Plata km</td><td><span class="na">Sin sugerencia: ubicar a mano</span></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Aut.%20Bs%20As%20La%20Plata%20km%209%2C%20Avellaneda%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.6712236370798%2C-58.3341993283792" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>059</td><td><strong>Salta Shopping</strong></td><td>Virrey Toledo 702<div class="small">Salta, Salta</div></td>
+<td>El pin cae en Avenida del Bicentenario de la Batalla de Salta 702, Salta, no sobre Virrey Toledo<div class="small">Calles a menos de 80 m: Avenida Antonio Fernández Cornejo, Salida, C, B, Acceso Estacionamiento, Avenida del Bicentenario de la Batalla de Salta, Salida Estacionamiento Subterráneo, Acceso Estacionamiento Subterráneo, Acceso Estacionamiento Superficie, A</div></td><td><span class="na">Sin sugerencia: ubicar a mano</span></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Virrey%20Toledo%20702%2C%20Salta%2C%20Salta%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-24.7809950759916%2C-65.4028095888586" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>130</td><td><strong>Tortugas Shopping</strong></td><td>Olivos 4100<div class="small">Tortuguitas, Buenos Aires</div></td>
+<td>El pin cae en Acceso Norte Ramal Pilar km 36.5, Tortuguitas, no sobre Olivos<div class="small">Calles a menos de 80 m: Colectora Acceso Norte Ramal Pilar, Avenida de los Constituyentes</div></td><td><span class="na">Sin sugerencia: ubicar a mano</span></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Olivos%204100%2C%20Tortuguitas%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.453296661%2C-58.729431152" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+</tbody></table></section>
+
+<section class="minor"><h2>Diferencia menor (hasta 150 m) <span class="count">2</span></h2><p class="desc">El pin está muy cerca del local (típico en shoppings). Corregir es opcional.</p>
+<table><thead><tr><th>ID</th><th>Sucursal</th><th>Dirección cargada</th><th>Qué hay en el pin actual</th><th>Corrección sugerida</th><th>Mapas</th></tr></thead><tbody>
+<tr><td>126</td><td><strong>Dot Shopping</strong></td><td>Melián 4630<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td>
+<td>El pin cae en Vedia 3740, Buenos Aires, no sobre Melián. La ubicación confirmada está a solo 140 m<div class="small">Calles a menos de 80 m: Vedia, Avenida General Paz</div></td><td><span class="mono">-34.546675, -58.487703</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: OpenStreetMap + Local Frávega en OSM · a 140 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Meli%C3%A1n%204630%2C%20Capital%20Federal%2C%20Ciudad%20Aut%C3%B3noma%20de%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.545570374%2C-58.488445282" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.546675%2C-58.4877026" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+<tr><td>099</td><td><strong>Quilmes Factory</strong></td><td>Av. Calchaquí 3950, Local 1002<div class="small">Quilmes, Buenos Aires</div></td>
+<td>El pin cae en Calle 379 Bis, Quilmes Oeste, no sobre Av. Calchaquí. La ubicación confirmada está a solo 123 m</td><td><span class="mono">-34.759043, -58.274822</span><br><span class="conf c-alta">Confianza Alta</span><div class="small">Fuentes: Georef + Local Frávega en OSM · a 123 m del pin actual</div></td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=Av.%20Calchaqu%C3%AD%203950%2C%20Quilmes%2C%20Buenos%20Aires%2C%20Argentina" target="_blank" rel="noopener noreferrer">Buscar dirección</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.7586221367944%2C-58.2760656747684" target="_blank" rel="noopener noreferrer">Pin actual</a><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.7590435%2C-58.2748223" target="_blank" rel="noopener noreferrer">Sugerida</a></td></tr>
+</tbody></table></section>
+<section class="okp"><h2>Correcto (altura sin verificar) <span class="count">3</span></h2><p class="desc">El pin está sobre la calle correcta; no se pudo confirmar la altura exacta.</p>
+<table><thead><tr><th>ID</th><th>Sucursal</th><th>Dirección cargada</th><th>Verificación</th><th>Mapa</th></tr></thead><tbody>
+<tr><td>145</td><td><strong>Gonzalez Catan</strong></td><td>Brig. Gral. Juan M. De Rosas 14446<div class="small">Gonzalez Catán, Buenos Aires</div></td><td>El pin está sobre Brig. Gral. Juan M. De Rosas; no se pudo verificar la altura</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.780887604%2C-58.624008179" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>166</td><td><strong>Rosario Sur</strong></td><td>Av. San Martin 5159<div class="small">Rosario, Santa Fe</div></td><td>El pin está sobre Av. San Martin; no se pudo verificar la altura</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.9974823%2C-60.648090363" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>167</td><td><strong>San Juan - Rawson</strong></td><td>Bv. Sarmiento 861 Oeste<div class="small">Rawson, San Juan</div></td><td>El pin está sobre Bv. Sarmiento; no se pudo verificar la altura</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.581501007%2C-68.545562744" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+</tbody></table></section>
+<section class="ok"><h2>Correcto <span class="count">94</span></h2><p class="desc">El pin coincide con la dirección cargada.</p>
+<table><thead><tr><th>ID</th><th>Sucursal</th><th>Dirección cargada</th><th>Verificación</th><th>Mapa</th></tr></thead><tbody>
+<tr><td>103</td><td><strong>Abasto Shopping</strong></td><td>Corrientes 3217<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin cae en Avenida Corrientes 3247, Buenos Aires</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.602622986%2C-58.411006927" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>002</td><td><strong>Almagro</strong></td><td>Corrientes 3889<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin cae en Avenida Corrientes 3895, Buenos Aires</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.603321075%2C-58.419342041" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>036</td><td><strong>Bahia Blanca</strong></td><td>Donado 65<div class="small">Bahía Blanca, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.721111298%2C-62.265644073" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>116</td><td><strong>Bariloche</strong></td><td>Clemente Onelli 407<div class="small">Bariloche, Río Negro</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-41.13709259%2C-71.297492981" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>005</td><td><strong>Barrio Norte</strong></td><td>Santa Fe 2401<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.594741821%2C-58.401123047" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>004</td><td><strong>Belgrano 1</strong></td><td>Cabildo 2202<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.561100006%2C-58.457550049" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>022</td><td><strong>Berazategui</strong></td><td>Pres. Juan Domingo Perón 4739<div class="small">Berazategui, Buenos Aires</div></td><td>El pin cae en Avenida 14 - Juan Domingo Perón 4697, Berazategui</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.762145996%2C-58.209857941" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>027</td><td><strong>Boulogne</strong></td><td>Antonio Saenz 2041<div class="small">Boulogne, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.509597778%2C-58.566665649" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>071</td><td><strong>Caballito</strong></td><td>Rivadavia 5216<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.619529724%2C-58.439193726" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>028</td><td><strong>Caleta Olivia</strong></td><td>Av. Independencia 113<div class="small">Caleta Olivia, Santa Cruz</div></td><td>El pin cae en Avenida Independencia 107, Mercado de la Ciudad</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-46.443473816%2C-67.519111633" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>175</td><td><strong>Campana</strong></td><td>Ing. Agustin Rocca 249<div class="small">Campana, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.16098586359058%2C-58.95922506138193" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>176</td><td><strong>Carlos Paz</strong></td><td>Av. San Martín 95<div class="small">Carlos Paz, Córdoba</div></td><td>El pin está sobre Av. San Martín; la dirección ubicada por OpenStreetMap está a 25 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.4202014%2C-64.4979024" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>113</td><td><strong>Catamarca</strong></td><td>Rivadavia 869<div class="small">San Fernando del Valle de Catamarca, Catamarca</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-28.471731186%2C-65.778366089" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>172</td><td><strong>Cipolletti</strong></td><td>Pte. Gral. Julio A Roca 167<div class="small">Cipolletti, Río Negro</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.938518524%2C-67.999549866" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>110</td><td><strong>Comodoro Rivadavia</strong></td><td>Gral. San Martín 346<div class="small">Comodoro Rivadavia, Chubut</div></td><td>El pin está sobre Gral. San Martín; la dirección ubicada por OpenStreetMap está a 2 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-45.861068726%2C-67.479133606" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>154</td><td><strong>Concordia</strong></td><td>Entre Rios 762<div class="small">Concordia, Entre Ríos</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.39491272%2C-58.017192841" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>012</td><td><strong>Constitución</strong></td><td>Brasil 1253<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.628009796%2C-58.38363266" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>081</td><td><strong>Córdoba</strong></td><td>9 De Julio 57<div class="small">Córdoba, Córdoba</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.414583206%2C-64.184547424" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>169</td><td><strong>Córdoba Norte</strong></td><td>Av. Colon 4330<div class="small">Córdoba, Córdoba</div></td><td>El pin cae en Avenida Colón 4416, Córdoba</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.396980286%2C-64.23740387" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>082</td><td><strong>Córdoba Nueva</strong></td><td>Gral. Paz 306<div class="small">Córdoba, Córdoba</div></td><td>El pin está sobre Gral. Paz; la dirección ubicada por Georef está a 22 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.411676407%2C-64.18547821" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>173</td><td><strong>Córdoba Shopping</strong></td><td>Av. Duarte Quiroz 1400<div class="small">Córdoba, Córdoba</div></td><td>El pin está sobre Av. Duarte Quiroz; la dirección ubicada por Georef está a 50 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.4126979033737%2C-64.2045026156773" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>123</td><td><strong>Corrientes 2</strong></td><td>Junín 1178<div class="small">Corrientes, Corrientes</div></td><td>El pin cae en Junín 1077, Corrientes</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.467552185%2C-58.837116241" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>135</td><td><strong>Ezeiza</strong></td><td>Conquista Del Desierto 230<div class="small">Ezeiza, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.853748322%2C-58.52166748" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>143</td><td><strong>Florencio Varela II</strong></td><td>Bernardo De Monteagudo 3351<div class="small">Florencio Varela, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.810459137%2C-58.274436951" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>070</td><td><strong>Flores Vip</strong></td><td>Rivadavia 6502<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.627216339%2C-58.457798004" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>149</td><td><strong>Formosa</strong></td><td>Av. 25 de Mayo 137<br>Av. 25 de Mayo 237<div class="small">Formosa, Formosa</div></td><td>El pin cae en Avenida 25 de Mayo 145, Municipio de Formosa</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-26.18225%2C-58.16578" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>129</td><td><strong>General Roca</strong></td><td>Tucumán 1162<div class="small">Gral. Roca, Río Negro</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-39.027820587%2C-67.580673218" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>134</td><td><strong>Gualeguaychu</strong></td><td>25 De Mayo 989<div class="small">Gualeguaychú, Entre Ríos</div></td><td>El pin está sobre 25 De Mayo; la dirección ubicada por OpenStreetMap está a 26 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.00951767%2C-58.518665314" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>051</td><td><strong>José C. Paz</strong></td><td>Hipólito Yrigoyen 1807<div class="small">José C. Paz, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.519496918%2C-58.752918243" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>105</td><td><strong>Jujuy</strong></td><td>Gral. Belgrano 735<div class="small">San Salvador de Jujuy, Jujuy</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-24.185340881%2C-65.30330658" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>015</td><td><strong>La Plata</strong></td><td>Calle 8 788<div class="small">La Plata, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.914535522%2C-57.952529907" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>146</td><td><strong>La Rioja</strong></td><td>San Martín 89<div class="small">La Rioja, La Rioja</div></td><td>El pin cae en San Martín 95, La Rioja</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-29.414638519%2C-66.85774231" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>035</td><td><strong>Laferrere</strong></td><td>Av. Luro 5975<div class="small">Gregorio de Laferrere, Buenos Aires</div></td><td>El pin cae en Avenida Luro 5973, Gregorio de Laferrere</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.748577118%2C-58.587444305" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>030</td><td><strong>Lanús</strong></td><td>Av. 9 de Julio 1185<div class="small">Lanús, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.708442688%2C-58.389640808" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>007</td><td><strong>Liniers</strong></td><td>Rivadavia 11626<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.639289856%2C-58.528022766" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>008</td><td><strong>Lomas</strong></td><td>España 25<div class="small">Lomas de Zamora, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.76109314%2C-58.399658203" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>153</td><td><strong>Luján</strong></td><td>San Martín 271<div class="small">Luján, Buenos Aires</div></td><td>El pin cae en 15 - San Martín 278, Luján</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.56477356%2C-59.11832428" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>037</td><td><strong>Mar del Plata</strong></td><td>Av. Luro y Santa Fe<div class="small">Mar del Plata, Buenos Aires</div></td><td>El pin está sobre Av. Luro; la dirección ubicada por Georef está a 186 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.000576019%2C-57.542499542" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>174</td><td><strong>Mar del Plata Shopping</strong></td><td>Sarmiento 2685<div class="small">Mar del Plata, Buenos Aires</div></td><td>El pin está sobre Sarmiento; la dirección ubicada por Georef está a 76 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.01253732612547%2C-57.54417554311665" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>092</td><td><strong>Mar Del Plata VIP</strong></td><td>Catamarca 1865<div class="small">Mar del Plata, Buenos Aires</div></td><td>El pin cae en Catamarca 1863, Mar del Plata</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-37.998191833%2C-57.552974701" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>034</td><td><strong>Mendoza</strong></td><td>España 1554<div class="small">Mendoza, Mendoza</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.885238647%2C-68.840713501" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>132</td><td><strong>Mendoza San Rafael</strong></td><td>San Martín 32<div class="small">San Rafael, Mendoza</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.615558624%2C-68.329620361" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>056</td><td><strong>Mendoza Shopping</strong></td><td>Av. Acceso lateral norte 3280<div class="small">Guaymallén, Mendoza</div></td><td>El pin cae en Acceso Este Lateral Norte 3280, Departamento Guaymallén</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.901954651%2C-68.797134399" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>080</td><td><strong>Mendoza VIP</strong></td><td>Gral. San Martín 1162<div class="small">Mendoza, Mendoza</div></td><td>El pin está sobre Gral. San Martín; la dirección ubicada por Georef está a 18 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.889911652%2C-68.839408875" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>020</td><td><strong>Merlo</strong></td><td>Del Libertador Gral. San Martín 639<div class="small">Merlo, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.667350769%2C-58.726551056" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>001</td><td><strong>Microcentro</strong></td><td>Corrientes 756<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.603469849%2C-58.377445221" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>025</td><td><strong>Monte Grande</strong></td><td>Hipolito Yrigoyen 48<div class="small">Monte Grande, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.8156166%2C-58.4670334" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>104</td><td><strong>Moreno</strong></td><td>Bartolomé Mitre 2642<div class="small">Moreno, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.649757385%2C-58.787712096999996" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>011</td><td><strong>Morón</strong></td><td>Alte. Guillermo Brown 702<div class="small">Morón, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.650524139%2C-58.618541718" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>043</td><td><strong>Neuquén</strong></td><td>Teodoro Planas 271<div class="small">Neuquén, Neuquén</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-38.959095001%2C-68.063201904" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>122</td><td><strong>Nine Shopping</strong></td><td>Victorica 1128<div class="small">Moreno, Buenos Aires</div></td><td>El pin cae en Avenida Enrique Victorica 1101, Moreno</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.635643005%2C-58.791984558" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>018</td><td><strong>Once (Ciudad)</strong></td><td>Valentin Gomez 2813<br>Av. Pueyrredón 460<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.6055222%2C-58.40586" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>125</td><td><strong>Pacheco</strong></td><td>H. Yrigoyen 589<div class="small">General Pacheco, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.458152771%2C-58.630458832" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>061</td><td><strong>Palermo</strong></td><td>Santa Fe 3181<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.589229584%2C-58.409835815" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>032</td><td><strong>Palmas del Pilar</strong></td><td>Las Magnolias 754<div class="small">Pilar, Buenos Aires</div></td><td>El pin cae en Las Magnolias 754, La Lonja</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.446285248%2C-58.868774414" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>042</td><td><strong>Paraná</strong></td><td>Carlos Pellegrini 176<div class="small">Paraná, Entre Ríos</div></td><td>El pin está sobre Carlos Pellegrini; la dirección ubicada por OpenStreetMap está a 19 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.733669281%2C-60.532413483" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>170</td><td><strong>Parque Brown</strong></td><td>Avda. F. Fernández de la Cruz 4602, Nivel 1, Local 1193<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin está sobre Avda. F. Fernández de la Cruz; la dirección ubicada por OpenStreetMap está a 239 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.6734203719179%2C-58.4599562925849" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>065</td><td><strong>Peatonal Florida</strong></td><td>Florida 296<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.604610443%2C-58.375160217" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>119</td><td><strong>Pilar</strong></td><td>Int. Pedro Lagrave 574<div class="small">Pilar, Buenos Aires</div></td><td>El pin está sobre Int. Pedro Lagrave; la dirección ubicada por OpenStreetMap está a 2 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.457012177%2C-58.912872314" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>079</td><td><strong>Pompeya</strong></td><td>Av. Sáenz 997<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin cae en Avenida Sáenz 1208, Buenos Aires</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.654876709%2C-58.416374207" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>003</td><td><strong>Portal Lomas</strong></td><td>Av. Antártida Argentina 799, Nivel 1, Local 1002, Llavallol<div class="small">Llavallol, Buenos Aires</div></td><td>El pin cae en Avenida Antártida Argentina 799, Llavallol</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.7915874338691%2C-58.4169359441775" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>006</td><td><strong>Portal Rosario</strong></td><td>Nansen 356, Nivel 2, Local 2080<div class="small">Rosario, Santa Fe</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.909549713%2C-60.683448792" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>144</td><td><strong>Posadas</strong></td><td>San Lorenzo 1874<div class="small">Posadas, Misiones</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.367454529%2C-55.8959198" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>148</td><td><strong>Quilmes Peatonal</strong></td><td>Rivadavia 199<div class="small">Quilmes, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.7222023%2C-58.2573929" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>124</td><td><strong>Resistencia</strong></td><td>Juan Domingo Perón 75<div class="small">Resistencia, Chaco</div></td><td>El pin está sobre Juan Domingo Perón; la dirección ubicada por OpenStreetMap está a 7 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-27.452161789%2C-58.988903046" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>055</td><td><strong>Rio Gallegos</strong></td><td>Av. Presidente Néstor Kirchner Nro 1056<div class="small">Río Gallegos, Santa Cruz</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-51.620445251%2C-69.217376709" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>162</td><td><strong>Río Grande</strong></td><td>Av. San Martin 170<div class="small">Rio Grande, Tierra del Fuego</div></td><td>El pin está sobre Av. San Martin; la dirección ubicada por Georef está a 60 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-53.7890231381374%2C-67.6963726603233" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>038</td><td><strong>Rosario</strong></td><td>Rioja 1040<div class="small">Rosario, Santa Fe</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.947853088%2C-60.637599945" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>067</td><td><strong>Rosario Peatonal Vip</strong></td><td>Peatonal Córdoba 1224<div class="small">Rosario, Santa Fe</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.946105957%2C-60.639842987" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>101</td><td><strong>Rosario Shopping</strong></td><td>Junín 501 local 108<div class="small">Rosario, Santa Fe</div></td><td>El pin está sobre Junín; la dirección ubicada por Georef está a 120 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-32.9268852%2C-60.671906" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>078</td><td><strong>Saenz Peña</strong></td><td>San Martín 456<div class="small">Sáenz Peña, Chaco</div></td><td>El pin cae en San Martín 460, Municipio de Presidencia Roque Sáenz peña</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-26.788658142%2C-60.441040039" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>041</td><td><strong>Salta</strong></td><td>Ituzaingó 117<div class="small">Salta, Salta</div></td><td>El pin cae en Ituzaingó 119, Salta</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-24.791130066%2C-65.413703918" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>063</td><td><strong>Salta Peatonal</strong></td><td>Juan Bautista Alberdi 142<div class="small">Salta, Salta</div></td><td>El pin está sobre Juan Bautista Alberdi; la dirección ubicada por OpenStreetMap está a 22 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-24.7914392525652%2C-65.411307920391" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>023</td><td><strong>San Fernando</strong></td><td>Constitución 839<div class="small">San Fernando, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.439655304%2C-58.558544159" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>010</td><td><strong>San Isidro</strong></td><td>Centenario 560<div class="small">San Isidro, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.470062256%2C-58.516662598" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>136</td><td><strong>San Jose - Temperley</strong></td><td>Eva Perón 3045<div class="small">Temperley, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.761264801%2C-58.36101532" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>014</td><td><strong>San Justo</strong></td><td>Dr. Ignacio Arieta 3429<div class="small">San Justo, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.681217194%2C-58.557201385" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>127</td><td><strong>San Justo Shopping</strong></td><td>Brig. Gral. Juan M. De Rosas 3910<div class="small">San Justo, Buenos Aires</div></td><td>El pin está sobre Brig. Gral. Juan M. De Rosas; la dirección ubicada por OpenStreetMap está a 87 m</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.684627533%2C-58.557533264" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>118</td><td><strong>San Luis</strong></td><td>Rivadavia Sur 649<div class="small">San Luis, San Luis</div></td><td>El pin cae en Rivadavia 644, Municipio de San Luis</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-33.303371429%2C-66.335800171" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>016</td><td><strong>San Martín</strong></td><td>San Martín 1982<div class="small">San Martín, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.578193665%2C-58.537399292" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>031</td><td><strong>San Miguel</strong></td><td>Tte. Gral. Perónn 1127<div class="small">San Miguel, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.54609%2C-58.7068" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>164</td><td><strong>San Miguel Shopping</strong></td><td>Av. Pres. Arturo Umberto Illia 3770, Local 30<br>Av. Arturo Illia 3770, Local 30<div class="small">San Miguel, Buenos Aires</div></td><td>El pin cae en Avenida Presidente Arturo Umberto Illia 3770, Malvinas Argentinas</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.53092993911712%2C-58.70238428969882" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>039</td><td><strong>Santa Fe</strong></td><td>San Jeronimo 2700<div class="small">Santa Fe, Santa Fe</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.644224167%2C-60.707576752" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>131</td><td><strong>Santa Fe Norte</strong></td><td>Aristobulo Del Valle 6256<div class="small">Santa Fe, Santa Fe</div></td><td>El pin cae en Avenida Aristóbulo del Valle 6263, Santa Fe</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.610729218%2C-60.694671631" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>069</td><td><strong>Santa Fe Peatonal Vip</strong></td><td>C. San Martín 2498<div class="small">Santa Fe, Santa Fe</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-31.646810532%2C-60.706859589" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>044</td><td><strong>Solano</strong></td><td>Av. 844 2428<div class="small">San Francisco Solano, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.780288696%2C-58.311592102" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>084</td><td><strong>Tandil</strong></td><td>9 De Julio 563<div class="small">Tandil, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-37.326286316%2C-59.135154724" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>040</td><td><strong>Tucumán</strong></td><td>9 de Julio 19<div class="small">San Miguel de Tucumán, Tucumán</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-26.831300735%2C-65.204658508" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>066</td><td><strong>Tucumán Peatonal</strong></td><td>Peatonal Muñecas 40<div class="small">San Miguel de Tucumán, Tucumán</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-26.830265045%2C-65.205986023" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>178</td><td><strong>Unicenter</strong></td><td>Paraná 3745<div class="small">Martínez, Buenos Aires</div></td><td>El pin cae en Paraná 3745, Martínez</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.508472983345%2C-58.5231885448051" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>161</td><td><strong>Ushuaia</strong></td><td>Perito Moreno 1460<div class="small">Ushuaia, Tierra del Fuego</div></td><td>El pin cae en Avenida Perito Moreno 1460, Ushuaia</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-54.7995583660952%2C-68.2797505437163" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>026</td><td><strong>Villa Ballester</strong></td><td>Angel T. De Alvear 2530<div class="small">Villa Ballester, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.548461914%2C-58.552574158" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>033</td><td><strong>Villa del Parque</strong></td><td>Cuenca 3030<div class="small">Capital Federal, Ciudad Autónoma de Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.602077484%2C-58.494766235" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+<tr><td>147</td><td><strong>Zarate</strong></td><td>Gral. Justa Lima De Atucha 835<div class="small">Zárate, Buenos Aires</div></td><td>El pin coincide con el local Frávega registrado en OpenStreetMap</td>
+<td class="links"><a href="https://www.google.com/maps/search/?api=1&amp;query=-34.102062225%2C-59.020015717" target="_blank" rel="noopener noreferrer">Pin actual</a></td></tr>
+</tbody></table></section>
+<footer>Datos de mapa: © colaboradores de OpenStreetMap (ODbL) y Georef AR (datos.gob.ar). Las fuentes públicas pueden errar entre 50 y 150 m; la coordenada definitiva debe confirmarla una persona.</footer>
+<script>
+document.getElementById('q').addEventListener('input', (e) => {
+  const v = e.target.value.toLowerCase();
+  document.querySelectorAll('tbody tr').forEach((tr) => { tr.style.display = tr.textContent.toLowerCase().includes(v) ? '' : 'none'; });
+});
+</script></body></html>
